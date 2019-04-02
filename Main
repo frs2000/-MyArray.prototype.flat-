@@ -1,0 +1,73 @@
+package newTask;
+
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args){
+
+        ArrayList<Object> mainList = new ArrayList<>();
+        mainList.add(1);
+        mainList.add(2);
+        mainList.add(3);
+        mainList.add(4);
+            ArrayList<Object> newList1 = new ArrayList<>();
+            newList1.add(5);
+            newList1.add(6);
+            newList1.add(7);
+            newList1.add(8);
+                ArrayList<Object> newList2 = new ArrayList<>();
+                newList2.add(9);
+                newList2.add(10);
+                newList2.add(11);
+            newList1.add(newList2);
+        mainList.add(newList1);
+
+        MyClass task = new MyClass();
+        // -------------  first option -------------
+        //task.logic(mainList);
+        //task.printList();
+
+        //------------- second option (write parameters here) ------------------
+        task.chooseLevel(mainList, 3);
+        task.printList();
+    }
+}
+
+class MyClass{
+    private ArrayList<Object> listForPrint = new ArrayList<>();
+    private int startPar = 1;
+
+    //---------- for first option -----------
+    public void logic (ArrayList<Object> mainList) {
+        for (int i = 0; i < mainList.size(); i++) {
+            if (!mainList.get(i).getClass().getSimpleName().equals(mainList.getClass().getSimpleName())) {
+                listForPrint.add(mainList.get(i));
+                // System.out.println(mainList.get(i));
+            }
+            if (mainList.get(i).getClass().getSimpleName().equals(mainList.getClass().getSimpleName())) {
+                ArrayList<Object> tempList = (ArrayList<Object>) mainList.get(i);
+                logic(tempList);
+            }
+        }
+    }
+
+    public void printList(){
+        System.out.println(listForPrint);
+    }
+
+    //---------- for second option -----------
+    public void chooseLevel(ArrayList<Object> mainList, int level){
+
+        for (int i = 0; i < mainList.size(); i++) {
+            if (!mainList.get(i).getClass().getSimpleName().equals(mainList.getClass().getSimpleName())) {
+                listForPrint.add(mainList.get(i));
+                // System.out.println(mainList.get(i));
+            }
+            if (mainList.get(i).getClass().getSimpleName().equals(mainList.getClass().getSimpleName())) {
+                ArrayList<Object> tempList = (ArrayList<Object>) mainList.get(i);
+                if (startPar == level){ listForPrint.add(tempList); break; }
+                if (startPar < level){ startPar = startPar+1; chooseLevel(tempList, level);}
+            }
+        }
+    }
+}
